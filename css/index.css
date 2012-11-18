@@ -6,3 +6,13 @@
 	margin: auto;
 }
 
+a {
+	color: #ff0;
+	background-color: #222;
+}
+
+a:hover {
+	color: #88f;
+	background-color: #333;
+}
+
