@@ -1,0 +1,227 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<!--
+To the extent possible under law, eXerigumo Clanjor (哆啦比猫/兰威举)
+has waived all copyright and related or neighboring rights to this work.
+This work is published from: China Mainland, in 2012.
+-->
+
+<title>带电小球在磁场中运动演示</title>
+<style>
+.canvas_div {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	right: 220px;
+	bottom: 10px;
+}
+.canvas {
+	width: 100%;
+	height: 100%;
+}
+.config {
+	float: right;
+	width: 200px;
+	height: auto;
+}
+h4 {
+	font-size: 16px;
+	margin-bottom: 2px;
+	margin-top: 30px;
+}
+input {
+	width: 100%;
+	height: 20px;
+}
+input#auto_reshoot {
+	width: auto;
+	height: auto;
+}
+span#box_reshoot {
+	cursor: default;
+}
+</style>
+
+<div class="canvas_div"><canvas id=cvs class="canvas"></canvas></div>
+<div class="config">
+	<input type="button" id=reshoot value="重射">
+	<input type="checkbox" id=auto_reshoot>
+	<span id=box_reshoot>自动重射</span>
+	<h4>初速度</h4>
+	<input type="range" id=Vdir  min=-180 max=180 step=0.1  value=0>
+	<input type="range" id=Vsize min=0    max=100 step=0.01 value=2>
+	<h4>外力</h4>
+	<input type="range" id=Fdir  min=-180 max=180 step=0.1  value=90>
+	<input type="range" id=Fsize min=0    max=100 step=0.01 value=10>
+	<h4>qB</h4>
+	<input type="range" id=qB    min=-100 max=100 step=0.01 value=10>
+	<h4>路径长度</h4>
+	<input type="range" id=Plen  min=1   max=1000 step=1    value=200>
+</div>
+
+<script>
+(function qvB() {
+	var pos, old_pos, shoot_pos, v;
+	var path = [];
+	var M = Math;
+	var c, img_CC0;
+
+	window.onload = function() {
+		window.onresize = resizeCanvas;
+		resizeCanvas();
+		c = cvs.getContext("2d");
+		drawText("Loading...", 0, 0, 16, "#00f");
+
+		shoot_pos = { x: cvs.width/2, y: cvs.height/2 };
+		cvs.onclick = function(evt) {
+			shoot_pos = { x: evt.offsetX, y: evt.offsetY };
+			shoot();
+		};
+		box_reshoot.onclick = function() {
+			auto_reshoot.checked = !auto_reshoot.checked;
+		}
+		reshoot.onclick = shoot;
+		shoot();
+
+		qB.onchange = function() { if (auto_reshoot.checked) shoot(); };
+		Fdir.onchange = Fsize.onchange = qB.onchange;
+		Vdir.onchange = Vsize.onchange = qB.onchange;
+
+		img_CC0 = new Image();
+		img_CC0.onload = function() {
+			window.setInterval(mainloop, 30);
+		};
+		img_CC0.src = "../img/CC0.png";
+	};
+
+	function resizeCanvas() {
+		cvs.width  = cvs.clientWidth;
+		cvs.height = cvs.clientHeight;
+	}
+
+	function shoot() {
+		pos = { x: shoot_pos.x, y: shoot_pos.y };
+		v   = { x: M.cos(deg2rad(Vdir.value)) * Vsize.value,
+				y: M.sin(deg2rad(Vdir.value)) * Vsize.value };
+	}
+
+	function deg2rad(deg) {
+		return deg * M.PI / 180;
+	}
+
+	function mainloop() {
+		applyForces();
+		recordPath();
+
+		c.clearRect(0, 0, cvs.width, cvs.height);
+		renderPath();
+		renderBall();
+		renderIndicators();
+		renderInfo();
+	}
+
+	function applyForces() {
+		var B = qB.value;
+		var L = { x: -v.y*B, y: v.x*B };
+		var F = { x: M.cos(deg2rad(Fdir.value)) * Fsize.value,
+				  y: M.sin(deg2rad(Fdir.value)) * Fsize.value };
+		var a = { x: (F.x+L.x) * 0.01, y: (F.y+L.y) * 0.01 };
+
+		old_pos = { x: pos.x, y: pos.y };
+		pos.x  += v.x;
+		pos.y  += v.y;
+		v.x    += a.x;
+		v.y    += a.y;
+	}
+
+	function recordPath() {
+		path.push({ x1: old_pos.x, y1: old_pos.y,
+					x2: pos.x,     y2: pos.y      });
+		path = path.slice(-parseInt(Plen.value));
+	}
+
+	function renderPath() {
+		for (var i=path.length-1; i>=0; i--) {
+			var a = (i+1) / path.length;
+			var p = path[i];
+			c.strokeStyle = "rgba(255,0,0," + a + ")";
+			c.lineWidth = 2;
+			c.beginPath();
+			c.moveTo(p.x1, p.y1);
+			c.lineTo(p.x2, p.y2);
+			c.stroke();
+		}
+	}
+
+	function renderBall() {
+		c.fillStyle = "rgba(255, 0, 0, 0.4)";
+		c.beginPath();
+		c.arc(pos.x, pos.y, 5, 0, 2*M.PI);
+		c.fill();
+	}
+
+	function renderIndicators() {
+		drawIndicator(cvs.width-28, 90, 24, Vdir.value);
+		drawText(parseInt(Vsize.value*100)/100,
+				cvs.width-50, 120, 12, "#000");
+		drawIndicator(cvs.width-28, 196, 24, Fdir.value);
+		drawText(parseInt(Fsize.value*100)/100,
+				cvs.width-50, 226, 12, "#000");
+		drawText(parseInt(qB.value*100)/100,
+				cvs.width-50, 300, 12, "#000");
+		drawText(parseInt(Plen.value),
+				cvs.width-50, 378, 12, "#000");
+	}
+
+	function renderInfo() {
+		drawText("带电小球在磁场中运动演示", 0, 0, 20, "#00f");
+		drawText("由于采用模拟方法，演示存在误差", 0, 30, 12, "#00a");
+		drawText("点击设置小球发射位置", 0, 44, 12, "#80a");
+		c.drawImage(img_CC0, 0, cvs.height - img_CC0.height);
+		drawText("知识共享零：在法律允许的可能范围内放弃一切著作权。",
+				img_CC0.width + 4, cvs.height - img_CC0.height + 2,
+				12, "#f66");
+		drawText("eXerigumo Clanjor (哆啦比猫/兰威举), 2012.",
+				img_CC0.width + 4, cvs.height - img_CC0.height + 16,
+				12, "#66f");
+	}
+
+	function drawText(text, x, y, size, style) {
+		c.font = size + "px monospace";
+		c.fillStyle = style;
+		c.textBaseline = "top";
+		c.fillText(text, x, y);
+	}
+
+	function drawIndicator(x, y, size, deg) {
+		var angle = deg2rad(deg);
+		var x2 = x + M.cos(angle) * size;
+		var y2 = y + M.sin(angle) * size;
+
+		c.strokeStyle = "#00f";
+		c.lineWidth = 1;
+		c.beginPath();
+		c.arc(x, y, size, 0, 2*M.PI);
+		c.stroke();
+
+		c.strokeStyle = "#f00";
+		c.lineWidth = 2;
+		c.beginPath();
+		c.moveTo(x, y);
+		c.lineTo(x2, y2);
+		c.stroke();
+
+		c.fillStyle = "#f00";
+		c.beginPath();
+		c.arc(x2, y2, 2, 0, 2*M.PI);
+		c.fill();
+
+		if (y2 > y)
+			drawText(parseInt(deg*10)/10, x-20, y-14, 12, "#000");
+		else
+			drawText(parseInt(deg*10)/10, x-20, y, 12, "#000");
+	}
+})();
+</script>
+
