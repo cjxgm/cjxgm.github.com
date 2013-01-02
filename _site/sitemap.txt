@@ -1,0 +1,12 @@
+
+http://cjprods.org/pages/about/index.html
+http://cjprods.org/archive.html
+http://cjprods.org/atom.xml
+http://cjprods.org/about.html
+http://cjprods.org/pages.html
+http://cjprods.org/categories.html
+http://cjprods.org/tags.html
+http://cjprods.org/index.html
+http://cjprods.org/sitemap.txt
+
+http://cjprods.org/2013/01/02/hello-world
