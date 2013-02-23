@@ -1,11 +1,15 @@
 
+.transition {
+	transition: all 0.5s ease;
+}
+
 .fullscreen {
 	position: fixed;
 	top: 0px;
 	bottom: 0px;
 	left: 0px;
 	right: 0px;
-	background: radial-gradient(50% 50%, closest-corner, #1a82f7, #2F2727);
+	background: radial-gradient(50% 50%, farthest-corner, #18f, #225);
 }
 
 #title {
@@ -21,14 +25,59 @@
 	height: 100%;
 
 	color: #49f;
-	text-shadow: 0px 0px 10px #2f2727;
+	text-shadow: 0px 0px 10px #222;
 }
 
-#content {
+#menu {
 	font-family: Exo;
 	font-size: 32px;
 
 	color: black;
-	text-shadow: 0px 0px 3px #2f2727;
+	text-shadow: 0px 0px 3px #222;
 }
 
+ul {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	height: 30px;
+	width: auto;
+	margin: auto;
+}
+
+li {
+	font-size: 24px;
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 20px;
+	transition: all 0.5s ease;
+}
+
+li:hover {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.1);
+	box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.2) inset,
+				1px 1px 3px rgba(255, 255, 255, 0.2);
+}
+
+.content {
+	position: fixed;
+	left: 100px;
+	top: 100px;
+	display: none;
+	opacity: 0;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+	color: white;
+	font-size: 20px;
+}
+
+.content h1 {
+	font-family: Exo;
+	font-weight: bold;
+	font-size: 32px;
+}
+
+audio {
+	display: none;
+}

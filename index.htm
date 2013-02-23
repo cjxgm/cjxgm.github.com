@@ -14,9 +14,48 @@ vim: noet sw=2 ts=2
 		<script src="js/index.js"></script>
 	</head>
 	<body>
+		<audio id="audioTitle">
+			<source src="audio/title.ogg" type="audio/ogg">
+		</audio>
+		<audio id="audioFade">
+			<source src="audio/fade.ogg" type="audio/ogg">
+		</audio>
+		<audio id="audioFade2">
+			<source src="audio/fade2.ogg" type="audio/ogg">
+		</audio>
+
 		<div class="fullscreen">
-			<div id="title">Clanjor Prods.</div>
-			<div id="content">Under Construction</div>
+			<div id="title" class="transition">Clanjor Prods.</div>
+
+			<div id="menu" class="transition">
+				<ul>
+					<li>About</li>
+					<li>Music</li>
+					<li>Video</li>
+					<li>Code</li>
+				</ul>
+			</div>
+
+			<div class="content" id="About">
+				<h1>About Clanjor Prods.</h1>
+				Hi! I'm eXerigumo Clanjor!
+			</div>
+
+			<div class="content" id="Music">
+				<h1>Music that I composed</h1>
+				TODO.
+			</div>
+
+			<div class="content" id="Video">
+				<h1>Video that I made</h1>
+				TODO.
+			</div>
+
+			<div class="content" id="Code">
+				<h1>Codes that I wrote</h1>
+				TODO.
+			</div>
+
 		</div>
 	</body>
 </html>

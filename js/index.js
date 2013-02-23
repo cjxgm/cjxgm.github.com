@@ -34,14 +34,67 @@ $.fn.center = function(pa, offsetX, offsetY)
 }
 
 $(function() {
-	$("#content")
-		.transition({opacity: 0}, 500)
-		.center(".fullscreen")
-		.transition({opacity: 1, y: "+=50"}, 500, 'ease')
-	;
+	function playAudio(name)
+	{
+		var audio = $("#audio" + name)[0];
+		audio.pause();
+		audio.currentTime = 0;
+		audio.play();
+	}
 
+	// startup animation
+	var audioCount = $("audio").length;
+	$("audio").bind("canplaythrough", function() {
+		if (--audioCount) return;
+
+		$("#menu")
+			.transition({opacity: 0}, 0)
+			.transition({}, 500)
+			.center(".fullscreen")
+			.transition({opacity: 1, y: "+=34"}, 500, 'ease')
+		;
+		$("#title")
+			.transition({}, 800, '', function() {
+				playAudio("Title");
+			})
+			.transition({y: "-=20"}, 500, 'ease')
+		;
+	});
+
+	// events
 	$(window).resize(function() {
-		$("#content").center(".fullscreen");
+		var menu = $("#menu");
+		if (menu.data("downed")) {
+			var myHeight = parseInt(menu.css("height"));
+			var paHeight = parseInt($(".fullscreen").css("height"));
+			var myTop = paHeight - myHeight - 50;
+			menu.transition({top: myTop});
+			menu.centerX(".fullscreen");
+		}
+		else menu.center(".fullscreen");
+	});
+
+	$("li").click(function() {
+		var me = $(this);
+		$(".content").transition({opacity: 0}, 300, 'ease', function() {
+			$(".content").css("display", "none");
+			$("#" + me.text())
+				.css("display", "block")
+				.transition({opacity: 1}, 500, 'ease');
+			;
+		});
+
+		if (!$("#menu").data("downed")) playAudio("Fade");
+		else playAudio("Fade2");
+
+		$("#menu").data("downed", true);
+		$(window).resize();
+
+		$("#title").css({
+			height: "auto",
+			position: "fixed",
+			top: "50px"
+		});
 	});
 });
 
