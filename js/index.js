@@ -42,6 +42,8 @@ $(function() {
 		audio.play();
 	}
 
+	$(".nano").nanoScroller();
+
 	// startup animation
 	var audioCount = $("audio").length;
 	$("audio").bind("canplaythrough", function() {
@@ -76,12 +78,13 @@ $(function() {
 
 	$("li").click(function() {
 		var me = $(this);
-		$(".content").transition({opacity: 0}, 300, 'ease', function() {
-			$(".content").css("display", "none");
+		$(".detail").transition({opacity: 0}, 300, 'ease', function() {
+			$(".detail").css("display", "none");
 			$("#" + me.text())
 				.css("display", "block")
 				.transition({opacity: 1}, 500, 'ease');
 			;
+			$(window).resize();
 		});
 
 		if (!$("#menu").data("downed")) playAudio("Fade");

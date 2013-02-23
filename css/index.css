@@ -61,30 +61,47 @@ li:hover {
 				1px 1px 3px rgba(255, 255, 255, 0.2);
 }
 
-.content {
+.detail {
 	position: fixed;
 	left: 100px;
 	top: 140px;
 	right: 100px;
 	bottom: 80px;
-	padding: 10px;
 	background-color: rgba(255, 255, 255, 0.1);
 	border: 1px solid rgba(255, 255, 255, 0.5);
 	border-radius: 20px;
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5) inset;
 	display: none;
 	opacity: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 4px;
+}
+
+.nano .content {
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 	color: white;
 	font-size: 20px;
+	overflow: hidden;
+}
+
+.nano .pane {
+	background: #888;
+}
+
+.nano .slider {
+	background: #111;
 }
 
 .content h1 {
 	font-family: Exo;
 	font-weight: bold;
-	font-size: 32px;
+	font-size: 24px;
+	color: #f82;
 }
 
 audio {
 	display: none;
 }
+

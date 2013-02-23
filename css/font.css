@@ -4,5 +4,5 @@
 	font-weight: 200;
 	src: local('Exo ExtraLight'),
 		 local('Exo-ExtraLight'),
-		 url(http://themes.googleusercontent.com/static/fonts/exo/v1/z1hPnoJcXaXYata_d2utlw.woff) format('woff');
+		 url(../font/exo.woff) format('woff');
 }
