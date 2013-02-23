@@ -1,0 +1,8 @@
+@font-face {
+	font-family: 'Exo';
+	font-style: normal;
+	font-weight: 200;
+	src: local('Exo ExtraLight'),
+		 local('Exo-ExtraLight'),
+		 url(http://themes.googleusercontent.com/static/fonts/exo/v1/z1hPnoJcXaXYata_d2utlw.woff) format('woff');
+}
