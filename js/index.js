@@ -83,18 +83,18 @@ $(function() {
 		else menu.center(".fullscreen");
 	});
 
-	$("li").click(function() {
+	$("#menu li").click(function() {
 		var me = $(this);
+		$(window).resize();
 		$(".detail")
 			.stop()
-			.transition({opacity: 0}, 300, 'ease', function() {
-				$(window).resize();
-				$(".detail").css("display", "none");
-				$("#" + me.text())
-					.css("display", "block")
-					.transition({opacity: 1}, 500, 'ease');
-				;
-			})
+			.transition({opacity: 0}, 0)
+			.css("display", "none")
+		;
+		$("#" + me.text())
+			.stop()
+			.css("display", "block")
+			.transition({opacity: 1}, 500, 'ease');
 		;
 
 		if (!$("#menu").data("downed")) playAudio("Fade");
