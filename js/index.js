@@ -34,6 +34,11 @@ $.fn.center = function(pa, offsetX, offsetY)
 }
 
 $(function() {
+	if (navigator.userAgent.indexOf("WebKit") == -1) {
+		alert("Please use a WebKit kernel browser, like Google Chrome.");
+		location.href = "http://chrome.google.com";
+	}
+
 	function playAudio(name)
 	{
 		var audio = $("#audio" + name)[0];
@@ -50,12 +55,12 @@ $(function() {
 		if (--audioCount) return;
 
 		$("#menu")
-			.transition({opacity: 0}, 0)
 			.transition({}, 500)
 			.center(".fullscreen")
 			.transition({opacity: 1, y: "+=34"}, 500, 'ease')
 		;
 		$("#title")
+			.stop()
 			.transition({}, 800, '', function() {
 				playAudio("Title");
 			})
@@ -65,27 +70,32 @@ $(function() {
 
 	// events
 	$(window).resize(function() {
-		var menu = $("#menu");
+		var menu = $("#menu").stop();
 		if (menu.data("downed")) {
 			var myHeight = parseInt(menu.css("height"));
 			var paHeight = parseInt($(".fullscreen").css("height"));
 			var myTop = paHeight - myHeight - 50;
-			menu.transition({top: myTop});
-			menu.centerX(".fullscreen");
+			menu
+				.transition({top: myTop})
+				.centerX(".fullscreen")
+			;
 		}
 		else menu.center(".fullscreen");
 	});
 
 	$("li").click(function() {
 		var me = $(this);
-		$(".detail").transition({opacity: 0}, 300, 'ease', function() {
-			$(".detail").css("display", "none");
-			$("#" + me.text())
-				.css("display", "block")
-				.transition({opacity: 1}, 500, 'ease');
-			;
-			$(window).resize();
-		});
+		$(".detail")
+			.stop()
+			.transition({opacity: 0}, 300, 'ease', function() {
+				$(window).resize();
+				$(".detail").css("display", "none");
+				$("#" + me.text())
+					.css("display", "block")
+					.transition({opacity: 1}, 500, 'ease');
+				;
+			})
+		;
 
 		if (!$("#menu").data("downed")) playAudio("Fade");
 		else playAudio("Fade2");
@@ -99,5 +109,7 @@ $(function() {
 			top: "50px"
 		});
 	});
+
+	$(window).resize();
 });
 
