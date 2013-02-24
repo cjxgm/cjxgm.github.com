@@ -106,3 +106,18 @@ audio {
 	display: none;
 }
 
+a {
+	color: #f4a !important;
+	padding: 2px;
+	margin: 2px;
+	transition: all 0.5s ease;
+}
+
+a:visited {
+	color: #f4f !important;
+}
+a:hover {
+	border-radius: 4px;
+	box-shadow: 0px -1px 1px rgba(0, 0, 0, 0.5) inset,
+				0px 1px 1px rgba(255, 255, 255, 0.5);
+}
