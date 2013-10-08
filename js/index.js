@@ -35,8 +35,8 @@ $.fn.center = function(pa, offsetX, offsetY)
 
 $(function() {
 	if (navigator.userAgent.indexOf("WebKit") == -1) {
-		alert("Please use a WebKit kernel browser, like Google Chrome.");
-		location.href = "http://chrome.google.com";
+		//location.href = "http://chrome.google.com";
+		//alert("Please use a WebKit kernel browser, like Google Chrome.");
 	}
 
 	function playAudio(name)
